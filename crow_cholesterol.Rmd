@@ -19,13 +19,50 @@ library(leaflet)
 library(hexbin)
 library(tidyr)
 library(lme4)
+library(lmerTest)
 crow <- read.table("data/crow_cholesterol_data.txt", header = TRUE, sep = "\t")
 ```
 
 ```{r clean up data, include=FALSE}
 summary(crow)
 crow$population <- as.factor(crow$population)
-crow$family <- as.factor(crow$family)
 crow$supplemented <- as.factor(crow$supplemented)
 ```
+
 I am going to make a lmm. cholesterol ~ impervious + (1|family). Could also have a model comparing supplemented and non supplemented. 
+
+```{r subset to 10 familes each, include=FALSE}
+crow <- filter(crow, family <= 12 | family == 15 | family == 21 | family == 23 | family == 45 | family == 52 | family == 53 | family == 59 | family == 63 | family == 75)
+crow$family <- as.factor(crow$family)
+```
+
+https://datadryad.org/dataset/doi:10.5061/dryad.t7r7899#usage The link to the dataset on dryad. 
+
+```{r ggplot cholesterol, fig.align='center', message=FALSE}
+ggplot(data = crow, aes(x = Impervious10ha, y = Cholesterol)) + 
+  geom_point() + 
+  stat_smooth(method = "lm", se = FALSE) + 
+  facet_wrap(.~population) + 
+  xlab("Percentage of Impervious Surface") + 
+  ylab("Cholesterol Level")
+```
+```{r linear mixed models}
+lmm.1 <- lmer(Cholesterol ~ Impervious10ha + population + (1|family), data = crow)
+```
+
+```{r lmm summary}
+summary(lmm.1)
+```
+
+```{r lmm anova analysis}
+anova()
+```
+
+```{r lmm sufaces}
+lmm.2 <- lmer(Cholesterol ~ Impervious10ha + (1|family), data = crow)
+```
+
+```{r lmm surfaces summary}
+summary(lmm.2)
+```
+
