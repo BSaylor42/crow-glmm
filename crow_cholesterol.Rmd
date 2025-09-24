@@ -20,6 +20,8 @@ library(hexbin)
 library(tidyr)
 library(lme4)
 library(lmerTest)
+library(arm)
+library(performance)
 crow <- read.table("data/crow_cholesterol_data.txt", header = TRUE, sep = "\t")
 ```
 
@@ -36,7 +38,13 @@ crow <- filter(crow, family <= 12 | family == 15 | family == 21 | family == 23 |
 crow$family <- as.factor(crow$family)
 ```
 
-https://datadryad.org/dataset/doi:10.5061/dryad.t7r7899#usage The link to the dataset on dryad. 
+
+## Crow Cholesterol Data
+
+Animals living in urban environments tend to eat different food sources than their counterparts in rural environments. Elevated cholesterol levels in urban wildlife could indicate the inclusion of high-calorie, high-fat antrhopogenic foods in their diet. This greasier food source could impact individuals' health and fitness over their lifetime.  
+
+One team of researchers decided to look at how urbanization might impact the cholesterol levels of crows. They measured the cholesterol levels of nestling crows in Davis, CA and in Clinton, NY. Crows in Clinton, NY were also supplemented with McDonalds cheeseburgers. To simplify the dataset for this example, we will only be looking at ten crow families from each population. You can check out the dataset on [Dryad](https://datadryad.org/dataset/doi:10.5061/dryad.t7r7899#usage)
+ 
 
 ```{r ggplot cholesterol, fig.align='center', message=FALSE}
 ggplot(data = crow, aes(x = Impervious10ha, y = Cholesterol)) + 
@@ -54,9 +62,6 @@ lmm.1 <- lmer(Cholesterol ~ Impervious10ha + population + (1|family), data = cro
 summary(lmm.1)
 ```
 
-```{r lmm anova analysis}
-anova()
-```
 
 ```{r lmm sufaces}
 lmm.2 <- lmer(Cholesterol ~ Impervious10ha + (1|family), data = crow)
@@ -64,5 +69,14 @@ lmm.2 <- lmer(Cholesterol ~ Impervious10ha + (1|family), data = crow)
 
 ```{r lmm surfaces summary}
 summary(lmm.2)
+```
+
+```{r compare model summaries}
+arm::display(lmm.1)
+arm::display(lmm.2)
+```
+
+```{r compare performance of models}
+performance::compare_performance(lmm.1, lmm.2)
 ```
 
