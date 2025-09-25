@@ -31,8 +31,6 @@ crow$population <- as.factor(crow$population)
 crow$supplemented <- as.factor(crow$supplemented)
 ```
 
-I am going to make a lmm. cholesterol ~ impervious + (1|family). Could also have a model comparing supplemented and non supplemented. 
-
 ```{r subset to 10 familes each, include=FALSE}
 crow <- filter(crow, family <= 12 | family == 15 | family == 21 | family == 23 | family == 45 | family == 52 | family == 53 | family == 59 | family == 63 | family == 75)
 crow$family <- as.factor(crow$family)
@@ -43,8 +41,11 @@ crow$family <- as.factor(crow$family)
 
 Animals living in urban environments tend to eat different food sources than their counterparts in rural environments. Elevated cholesterol levels in urban wildlife could indicate the inclusion of high-calorie, high-fat antrhopogenic foods in their diet. This greasier food source could impact individuals' health and fitness over their lifetime.  
 
-One team of researchers decided to look at how urbanization might impact the cholesterol levels of crows. They measured the cholesterol levels of nestling crows in Davis, CA and in Clinton, NY. Crows in Clinton, NY were also supplemented with McDonalds cheeseburgers. To simplify the dataset for this example, we will only be looking at ten crow families from each population. You can check out the dataset on [Dryad](https://datadryad.org/dataset/doi:10.5061/dryad.t7r7899#usage)
- 
+One team of researchers decided to look at how urbanization might impact the cholesterol levels of crows. They measured the cholesterol levels of nestling crows in Davis, CA and in Clinton, NY. Crows in Clinton, NY were also supplemented with McDonalds cheeseburgers. To simplify the dataset for this example, we will only be looking at ten crow families from each population. You can check out the dataset on [Dryad.](https://datadryad.org/dataset/doi:10.5061/dryad.t7r7899#usage)
+
+<center>
+<iframe src="https://macaulaylibrary.org/asset/642291976/embed" height="552" width="640" frameborder="0" allowfullscreen></iframe>
+</center>
 
 ```{r ggplot cholesterol, fig.align='center', message=FALSE}
 ggplot(data = crow, aes(x = Impervious10ha, y = Cholesterol)) + 
@@ -54,9 +55,18 @@ ggplot(data = crow, aes(x = Impervious10ha, y = Cholesterol)) +
   xlab("Percentage of Impervious Surface") + 
   ylab("Cholesterol Level")
 ```
+
+## Running Models 
+
+### Does urbanization impact the cholesterol level of crows? 
+
 ```{r linear mixed models}
-lmm.1 <- lmer(Cholesterol ~ Impervious10ha + population + (1|family), data = crow)
+lmm.1 <- lmer(Cholesterol ~ Impervious10ha + (1|family), data = crow)
 ```
+
+Fixed Effects: 
+
+Random Effects: 
 
 ```{r lmm summary}
 summary(lmm.1)
