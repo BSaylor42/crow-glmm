@@ -41,12 +41,19 @@ crow$family <- as.factor(crow$family)
 
 Animals living in urban environments tend to eat different food sources than their counterparts in rural environments. Elevated cholesterol levels in urban wildlife could indicate the inclusion of high-calorie, high-fat antrhopogenic foods in their diet. This greasier food source could impact individuals' health and fitness over their lifetime.  
 
-One team of researchers decided to look at how urbanization might impact the cholesterol levels of crows. They measured the cholesterol levels of nestling crows in Davis, CA and in Clinton, NY. Crows in Clinton, NY were also supplemented with McDonalds cheeseburgers. To simplify the dataset for this example, we will only be looking at ten crow families from each population. You can check out the dataset on [Dryad.](https://datadryad.org/dataset/doi:10.5061/dryad.t7r7899#usage)
+American crows are known to easily adapt to an urban lifestyle. They are omnivorous and will eat almost anything they can find on the ground including worms, seeds, fruit, insects, carrion, and even garbage. Crows hang out in flocks or family groups. The family groups consists of the parents and their offspring. Young crows up to two years old will remain with their parents and help care for their younger siblings. 
+
+One team of researchers decided to look at how urbanization might impact the cholesterol levels of the American Crow. The researchers measured the cholesterol levels of nestling crows in Davis, CA and in Clinton, NY. Crows in Clinton, NY were also supplemented with McDonalds cheeseburgers. To simplify the dataset for this example, we will only be looking at ten crow families from each population. You can check out the dataset on [Dryad.](https://datadryad.org/dataset/doi:10.5061/dryad.t7r7899#usage)
 
 <center>
 <iframe src="https://macaulaylibrary.org/asset/642291976/embed" height="552" width="640" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://macaulaylibrary.org/asset/256800971/embed" height="552" width="640" frameborder="0" allowfullscreen></iframe>
 </center>
 
+<center>
+<iframe src="https://macaulaylibrary.org/asset/642291976/embed" height="390" width="320" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://macaulaylibrary.org/asset/256800971/embed" height="401" width="320" frameborder="0" allowfullscreen></iframe>
+</center>
 ```{r ggplot cholesterol, fig.align='center', message=FALSE}
 ggplot(data = crow, aes(x = Impervious10ha, y = Cholesterol)) + 
   geom_point() + 
